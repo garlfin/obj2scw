@@ -1,13 +1,14 @@
 # Credits
 # Written by Garlfin and Danila voronochkin (Данила вороночкин)
 # youtube/sciong @garlfin - vk/cms_vorono4ka
-# Big thanks to BlaCoiso, Sector, and Cosmic (They were nice to me when I pestered them)
+# Big thanks to BlaCoiso, Sector, Cosmic, and Kjkui (They were nice to me when I pestered them)
 # Possibly get support in this discord (not guaranteed): https://discord.gg/E3ket4T
 import struct
 
 obj = open('test.obj', 'r')
 vn = []
-vt = []
+vtpre = []
+vt=[]
 v = []
 f = []
 for line in obj.read().split('\n'):
@@ -26,10 +27,17 @@ for line in obj.read().split('\n'):
             f.append(line.split()[x + 1].split('/')[2])  # vn
             f.append(line.split()[x + 1].split('/')[1])
 
+#Uvs are messed up, attemps to fix it:
+vt[1::2] = [x*-1+1 for x in vt[1::2]]
+#for x in range(1,len(vtpre),2):
+   # vt.append(vtpre[x]*-1)
+
 print("Made by Garlfin and Daniel")
 print("This is in BETA and is not guaranteed to work.")
 print("Make sure to triangulate the model.")
-print("License in readme.md,")
+print("License in readme.md")
+
+print("\n\nOBJ FAX:\nAmount of verticies: ",len(v),"\nAmount of UV Coords: ",len(vt))
 
 #print(v)
 #print(len(v), ":", len(v)/3)
@@ -89,7 +97,6 @@ def GeomWrite():
     Finalstuff = struct.pack('>h13sHHH', 13, "character_mat".encode('utf-8'), 0, int(len(f)/9), 770)  # testing time!
     for x in f:
         Finalstuff += struct.pack('>h', int(x)-1)# i fixed it! Ok
-    # what are you doing? Mode. thats not how mode works. ive been working with scw for quite some time. hm i think type 770 !=770 and == 3 2 this has logic WE need mode 770.
     fout.write(Finalstuff)
     fout.write(b"\x3D\xeb\xb7\x03")
 
