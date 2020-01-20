@@ -4,6 +4,7 @@
 # Big thanks to BlaCoiso, Sector, Cosmic, and Kjkui (They were nice to me when I pestered them)
 # Possibly get support in this discord (not guaranteed): https://discord.gg/E3ket4T
 import struct
+import binascii
 
 obj = open('test.obj', 'r')
 vn = []
@@ -50,62 +51,79 @@ def writeString(word):
 
 
 def HeadWrite():
-    headStruct = struct.Struct('>4sI4shhhhh28s')
-    headPacked = headStruct.pack('SC3D'.encode('utf-8'), 39, 'HEAD'.encode('utf-8'), 2, 30, 0, 200, 28,'sc3d/character_materials.scw'.encode('utf-8'))
+    headStart = struct.pack('>4si','SC3D'.encode('utf-8'),39)
+    fout.write(headStart)
+
+    headStruct = struct.Struct('>4shhhhh28s')
+    headPacked = headStruct.pack('HEAD'.encode('utf-8'),2, 24, 0, 200, 28,'sc3d/character_materials.scw'.encode('utf-8'))
+     # Remaining & CRC
+    headPacked += b"\x00"
+    headPacked += struct.pack(">I",binascii.crc32(headPacked))
     fout.write(headPacked)
-    # Remaining & CRC
-    fout.write(b"\x00\xea\xe2\x3d\x90")
+   
+    #b"\x00\xea\xe2\x3d\x90")
 
 
 def GeomWrite():
     # GEOM
-    geoStart = struct.Struct('>i4sh4sh6s')
-    size = 104+(6*int(len(v)/3))+(6*int(len(vn)/3))+(4*int(len(vt)/2))+(18*int(len(f)/9))
-    geoStartPacked = geoStart.pack(size, 'GEOM'.encode(
-        'utf-8'), 4, 'main'.encode('utf-8'), 6, 'geoGrp'.encode('utf-8'))
 
-    fout.write(geoStartPacked)
-    fout.write(b"\x03")
-    geoPOS = struct.pack('>h8s', 8, "POSITION".encode('utf-8'))
-    fout.write(geoPOS)
-    fout.write(b"\x00")
+
+    
+    size = 104+(6*int(len(v)/3))+(6*int(len(vn)/3))+(4*int(len(vt)/2))+(18*int(len(f)/9))
+    geoStart = struct.pack('>i',size)
+    fout.write(geoStart)
+    geoPacked = struct.pack('>4sh4sh6s','GEOM'.encode('utf-8'), 4, 'main'.encode('utf-8'), 6, 'geoGrp'.encode('utf-8'))
+
+    #fout.write(geoStartPacked)
+    geoPacked += b"\x03"
+    geoPacked += struct.pack('>h8s', 8, "POSITION".encode('utf-8'))
+    #fout.write(geoPOS)
+    geoPacked += b"\x00"
     scalev = max(max(v), abs(min(v)))
 
-    POSITION = struct.pack('>hfI', 3, scalev, int(len(v)/3))
+    geoPacked += struct.pack('>hfI', 3, scalev, int(len(v)/3))
     for x in v:
-        POSITION += struct.pack('>h', int(x*32767/scalev))
+        geoPacked += struct.pack('>h', int(x*32767/scalev))
 
-    POSITION += struct.pack('>h6s', 6, "NORMAL".encode('utf-8'))
-    fout.write(POSITION)
-    fout.write(b"\x01")  
+    geoPacked += struct.pack('>h6s', 6, "NORMAL".encode('utf-8'))
+    #fout.write(POSITION)
+    geoPacked += b"\x01"  
     scalevn = max(max(vn), abs(min(vn)))
-    NORMAL = struct.pack('>HfI', 3, scalevn, int(len(vn)/3))
+    geoPacked += struct.pack('>HfI', 3, scalevn, int(len(vn)/3))
     for vbruh in vn:
-        NORMAL += struct.pack('>h', int(vbruh*32767/scalevn))
+        geoPacked += struct.pack('>h', int(vbruh*32767/scalevn))
 
-    NORMAL += struct.pack('>h8s', 8, "TEXCOORD".encode('utf-8'))  # LINE 65 oh
-    fout.write(NORMAL)
-    fout.write(b"\x02")
+    geoPacked += struct.pack('>h8s', 8, "TEXCOORD".encode('utf-8'))  # LINE 65 oh
+    #fout.write(NORMAL)
+    geoPacked += b"\x02"
     scalevt = max(max(vt), abs(min(vt)))
-    TEXCOORD = struct.pack('>HfI', 2, scalevt, int(len(vt)/2))
+    geoPacked += struct.pack('>HfI', 2, scalevt, int(len(vt)/2))
     for x in vt:
-        TEXCOORD += struct.pack('>h', int(x*32512/scalevt))
+        geoPacked += struct.pack('>h', int(x*32512/scalevt))
         #TEXCOORD += struct.pack('>h', int(vt[x-1]*32512/scalevt))
         #TEXCOORD += struct.pack('>h', 1-int(vt[x]*32512/scalevt))
-    fout.write(TEXCOORD)
-    fout.write(b"\x00\x00\x00\x00\x00\x00\x01")
-    Finalstuff = struct.pack('>h13sHHH', 13, "character_mat".encode('utf-8'), 0, int(len(f)/9), 770)  # testing time!
+    #fout.write(TEXCOORD)
+    geoPacked += b"\x00\x00\x00\x00\x00\x00\x01"
+    geoPacked  += struct.pack('>h13sHHH', 13, "character_mat".encode('utf-8'), 0, int(len(f)/9), 770)  # testing time!
     for x in f:
-        Finalstuff += struct.pack('>h', int(x)-1)# i fixed it! Ok
-    fout.write(Finalstuff)
-    fout.write(b"\x3D\xeb\xb7\x03")
+        geoPacked += struct.pack('>h', int(x)-1)# i fixed it! Ok
+
+    geoPacked += struct.pack('>I',binascii.crc32(geoPacked))
+    print(binascii.crc32(geoPacked)," ",binascii.crc32(geoPacked))
+    fout.write(geoPacked)
+    #fout.write(b"\x3D\xeb\xb7\x03")
 
 
 def NodeWrite():
-    nodePacked = struct.pack('>I4sHH9sHHHBhhhhhffffffH4sH9sHHBhhhhhffffffH4sH4sH4sH4sHH13sH13sHBBBB', 168, "NODE".encode('utf-8'), 3, 9, "CHARACTER".encode('utf-8'), 0, 0, 1, 0, 0, 0, 0, 0, 32512, 0, 0, 0, 1, 1, 1, 4, "ROOT".encode('utf-8'), 9, "CHARACTER".encode(
-        'utf-8'), 0, 1, 0, 0, 0, 0, 0, 32512, 0, 0, 0, 1, 1, 1, 4, "main".encode('utf-8'), 4, "ROOT".encode('utf-8'), 1, "GEOM".encode(), 4, "main".encode('utf-8'), 1, 13, "character_mat".encode('utf-8'), 13, "character_mat".encode('utf-8'), 0, 216, 44, 226, 217)
+    nodeStart = struct.pack('>I',168)
+    fout.write(nodeStart)
+    nodePacked = struct.pack('>4sHH9sHHHBhhhhhffffffH4sH9sHHBhhhhhffffffH4sH4sH4sH4sHH13sH13sH',"NODE".encode('utf-8'), 3, 9, "CHARACTER".encode('utf-8'), 0, 0, 1, 0, 0, 0, 0, 0, 32512, 0, 0, 0, 1, 1, 1, 4, "ROOT".encode('utf-8'), 9, "CHARACTER".encode('utf-8'), 0, 1, 0, 0, 0, 0, 0, 32512, 0, 0, 0, 1, 1, 1, 4, "main".encode('utf-8'), 4, "ROOT".encode('utf-8'), 1, "GEOM".encode(), 4, "main".encode('utf-8'), 1, 13, "character_mat".encode('utf-8'), 13, "character_mat".encode('utf-8'), 0)
+    #fout.write(nodePacked)
+    crcNODE = binascii.crc32(nodePacked)
+    #nodePacked += struct.pack('BBBB',216, 44, 226, 217)
+    #fout.write(nodecrc)
+    nodePacked += struct.pack('>I',crcNODE)
     fout.write(nodePacked)
-
 
 def WendWrite():
     wendStruct = struct.Struct('I4s')
