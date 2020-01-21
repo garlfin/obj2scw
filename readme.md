@@ -5,7 +5,7 @@ Big thanks to BlaCoiso, Sector, and Cosmic (They were nice to me when I pestered
 Possibly get support in this discord (not guaranteed): https://discord.gg/E3ket4T
 
 Instructions:
-Triangulate model, export as obj, edit the file to specify the selected obj, run. Out comes the shiny obj that may or may not work. 
+Triangulate model, export as obj, edit the file to specify the selected obj, run. Out comes the shiny scw that may or may not work. 
 
 NOTE: THIS DOES NOT SUPPORT BONES (*yet*), I NEED TO SWITCH TO THE COLLADA FORMAT TO DO SO.
 
