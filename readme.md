@@ -5,8 +5,8 @@ Big thanks to BlaCoiso, Sector, and Cosmic (They were nice to me when I pestered
 Possibly get support in this discord (not guaranteed): https://discord.gg/E3ket4T
 
 Instructions:
-Triangulate model, export as obj, edit the file to specify the selected obj, run. Out comes the shiny scw that may or may not work. 
-Arguments: python convert.py quackage.obj. Make sure you remove the model you are changings animation to none. Ex: If you are replacing shelly_geo.scw, in skin_confs.csv you remove all animations for shelly.
+Its in the discord: https://discord.gg/E3ket4T
+#modding-howto-obj2scw
 
 NOTE: THIS DOES NOT SUPPORT BONES (*yet*), I NEED TO SWITCH TO THE COLLADA FORMAT TO DO SO.
 
