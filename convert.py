@@ -1,10 +1,12 @@
 import struct
 import sys
 import os
+import os.path
 
-pathtoobj = str(sys.argv[1])
-print(str(sys.argv[1]))
+
 def crap():
+    pathtoobj = str(sys.argv[1])
+    #print(str(sys.argv[1]))
     obj = open(pathtoobj, 'r')
     vn = []
     vt = []
@@ -26,18 +28,14 @@ def crap():
                 f.append(line.split()[x + 1].split('/')[2])  # vn
                 f.append(line.split()[x + 1].split('/')[1])  # vt
 
+    if len(v) == 0:
+        print(pathtoobj+" doesnt have any geometry! ABORTING")
+        return
     vt[1::2] = [x*-1+1 for x in vt[1::2]]
-    print(v)
+    #print(v)
     in_file = open("nita_bear_geo.scw", "rb")
     geoPacked = in_file.read(55)
     size = int(29125+len(v)/3*6+len(vn)/3*6+len(vt)/2*4+len(f)/9*18)
-
-    print(29125+len(v)/3*6+len(vn)/3*6+len(vt)/2*4+len(f)/9*18)
-    print(len(v)/3*6)
-    print(len(vn)/3*6)
-    print(len(vt)/2*4)
-    print(len(f)/9*18)
-    print(size)
     in_file.seek(35769)
     geoPacked += struct.pack('>i4sh4sh6s',size, 'GEOM'.encode('utf-8'), 4, 'main'.encode('utf-8'), 6, 'geoGrp'.encode('utf-8'))
 
@@ -81,7 +79,19 @@ def crap():
     out_file = open(os.path.splitext(os.path.basename(pathtoobj))[0]+".scw", "wb")
     out_file.write(geoPacked)
     out_file.close()
+    print("Done at " + os.path.splitext(os.path.basename(pathtoobj))[0]+".scw" )
 
-crap()
 
+if len(sys.argv) == 2:
+    pathtoobj = str(sys.argv[1])
+    print("INITALIZING "+str(sys.argv[1])+".")
+    if os.path.exists(pathtoobj):
+        print(pathtoobj +" exists.")
+        crap()
 
+    else:
+        print(pathtoobj+" doesn't exist. Please check it and try again")
+elif len(sys.argv) == 1:
+    print("Please provide the path to the obj. Ex: python convert.py quackage.obj")
+elif len(sys.argv) > 2:
+    print("Too many arguments. Please provide only the path to the obj. Ex: python convert.py quackage.obj")
