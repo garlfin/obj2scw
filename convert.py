@@ -28,7 +28,7 @@ def crap():
 
     vt[1::2] = [x*-1+1 for x in vt[1::2]]
     print(v)
-    in_file = open("req/nita_bear_geo.scw", "rb")
+    in_file = open("nita_bear_geo.scw", "rb")
     geoPacked = in_file.read(55)
     size = int(29125+len(v)/3*6+len(vn)/3*6+len(vt)/2*4+len(f)/9*18)
 
