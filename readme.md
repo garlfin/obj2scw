@@ -7,6 +7,7 @@ Possibly get support in this discord (not guaranteed): https://discord.gg/E3ket4
 Instructions:
 Its in the discord: https://discord.gg/E3ket4T
 #modding-howto-obj2scw
+Also plz credit me if you use my script.
 
 NOTE: THIS DOES NOT SUPPORT BONES (*yet*), I NEED TO SWITCH TO THE COLLADA FORMAT TO DO SO.
 
