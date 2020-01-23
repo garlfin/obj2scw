@@ -50,6 +50,12 @@ def crap():
     if len(v) == 0:
         print(pathtoobj+" doesnt have any geometry! ABORTING")
         return
+    if len(vn) == 0:
+        print(pathtoobj+" doesnt have any normals! ABORTING")
+        return
+    if len(f) == 0:
+        print(pathtoobj+" doesnt have any triangles! ABORTING")
+        return
     vt[1::2] = [x*-1+1 for x in vt[1::2]]
     #print(v)
     in_file = open("nita_bear_geo.scw", "rb")
@@ -79,10 +85,15 @@ def crap():
     geoPacked += struct.pack('>h8s', 8, "TEXCOORD".encode('utf-8'))  # LINE 65 oh
 
     geoPacked += b"\x02"
-    scalevt = max(max(vt), abs(min(vt)))
-    geoPacked += struct.pack('>HfI', 2, scalevt, int(len(vt) / 2))
-    for x in vt:
-        geoPacked += struct.pack('>h', int(x * 32512 / scalevt))
+
+    if len(vt) == 0:
+        print(pathtoobj + " doesn't have any texture coordinates! Setting vtcount to 0!")
+        geoPacked += struct.pack('>HfI', 2, 1, 0)
+    else:
+        scalevt = max(max(vt), abs(min(vt)))
+        geoPacked += struct.pack('>HfI', 2, scalevt, int(len(vt) / 2))
+        for x in vt:
+            geoPacked += struct.pack('>h', int(x * 32512 / scalevt))
     data2 = in_file.read(29045)
     geoPacked += data2
     geoPacked  += struct.pack('>HH',int(len(f)/9), 770)  # testing time!
