@@ -1,3 +1,10 @@
+# Credits
+# Written by Garlfin and Danila voronochkin (Данила вороночкин)
+# youtube/sciong @garlfin - vk/cms_vorono4ka
+# Big thanks to BlaCoiso, Sector, Cosmic, and Kjkui (They were nice to me when I pestered them)
+# Possibly get support in this discord (not guaranteed): https://discord.gg/E3ket4T
+
+
 import struct
 import sys
 import os
@@ -12,6 +19,18 @@ def crap():
     vt = []
     v = []
     f = []
+
+    textFixed = open(pathtoobj).read()
+    for line in textFixed.split('\n'):
+        if line.startswith('f ') and len(line.split()) == 5:
+            fragments = ''
+            for l in range(1, len(line.split())):
+                if l < 4:
+                    fragments += line.split()[l] + ' '
+                else:
+                    fragments1 = ' '.join(fragments.split()[0::2]) + ' ' + line.split()[l]
+                    textFixed = textFixed.replace(line, 'f %s\nf %s' % (fragments, fragments1))
+    open(pathtoobj, 'w').write(textFixed)
     for line in obj.read().split('\n'):
         if line.startswith('v '):
             for x in range(3):
