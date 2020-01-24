@@ -20,7 +20,7 @@ def crap():
     v = []
     f = []
 
-    textFixed = open(pathtoobj).read()
+    textFixed = obj.read()
     for line in textFixed.split('\n'):
         if line.startswith('f ') and len(line.split()) == 5:
             fragments = ''
