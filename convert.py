@@ -1,3 +1,10 @@
+# Credits
+# Written by Garlfin and Danila voronochkin (Данила вороночкин)
+# youtube/sciong @garlfin - vk/cms_vorono4ka
+# Big thanks to BlaCoiso, Sector, Cosmic, and Kjkui (They were nice to me when I pestered them)
+# Possibly get support in this discord (not guaranteed): https://discord.gg/E3ket4T
+
+
 import struct
 import sys
 import os
