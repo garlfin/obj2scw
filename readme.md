@@ -1,25 +1,53 @@
-Credits
-Written by Garlfin and Danila Voronochkin (Данила Вороночкин)
-youtube/sciong @garlfin - vk/cms_vorono4ka
-Big thanks to BlaCoiso, Sector, and Cosmic (They were nice to me when I pestered them)
-Possibly get support in this discord (not guaranteed): https://discord.gg/E3ket4T
+<h1 align="center">Welcome to obj2scw 👋</h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.1-blue.svg?cacheSeconds=2592000" />
+  <a href="https://twitter.com/garlfin" target="_blank">
+    <img alt="Twitter: garlfin" src="https://img.shields.io/twitter/follow/garlfin.svg?style=social" />
+  </a>
+</p>
 
-Instructions:
-Its in the discord: https://discord.gg/E3ket4T
-#modding-howto-obj2scw
-Also plz credit me if you use my script.
+> A crappy obj2scw converter thingmabob!
 
-NOTE: THIS DOES NOT SUPPORT BONES (*yet*), I NEED TO SWITCH TO THE COLLADA FORMAT TO DO SO.
+## Usage
 
-Licence:
+```sh
+python convert.py nameofobj.obj
+```
 
-https://creativecommons.org/licenses/by-sa/4.0/
+## Run tests
 
-No warranties are given. The license may not give you all of the permissions necessary for your intended use. For example, other rights such as publicity, privacy, or moral rights may limit how you use the material.
+```sh
+python convert.py quackage.obj
+```
 
-Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
-No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+## Author
 
+👤 **Garlfin/ScionG**
 
-Supercell: I mean no harm to your game, nor do I endorse modding. Its a fun project to reverse engineer scw.
+* Website: http://garlfin.studio
+* Twitter: [@garlfin](https://twitter.com/garlfin)
+* Github: [@garlfin](https://github.com/garlfin)
+
+## Support & more info
+
+* Discord: https://discord.gg/E3ket4T
+* Instructions: #modding-howto-obj2scw
+* Special thanks to: Danila Voronochkin (Данила Вороночкин) [@cms_vorono4ka](https://vk.com/vorono4ka_id0_id1_id228_id1488)
+* Also thanks to: BlaCoiso, Sector, and Cosmic
+* Supercell: I mean no harm to your game, nor do I endorse modding. It was a fun project to make this.
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+<a href="https://www.patreon.com/garlfin">
+  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+</a>
+
+## License
+
+* Type: CC BY-SA 4.0
+* Site: https://creativecommons.org/licenses/by-sa/4.0/
+
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
