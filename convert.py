@@ -66,19 +66,19 @@ def crap():
     if len(v) == 0:
         print(pathtoobj + " doesnt have any geometry! ABORTING")
         return
-    if len(v) >= 65535*3:
+    if len(v) >= 4294967296*3:
         print(pathtoobj + " has too much geometry! ABORTING")
         return
-    if len(vn) >= 65535*3:
+    if len(vn) >= 4294967296*3:
         print(pathtoobj + " has too many normals! ABORTING")
         return
     if len(f) == 0:
         print(pathtoobj + " doesnt have any triangles! ABORTING")
         return
-    if len(f) >= 65535*9:
+    if len(f) >= 4294967296*9:
         print(pathtoobj + " has too many triangles! ABORTING")
         return
-    if len(vt) >= 65535*2:
+    if len(vt) >= 4294967296*2:
         print(pathtoobj + " has too many texture coordinates! ABORTING")
         return
 
