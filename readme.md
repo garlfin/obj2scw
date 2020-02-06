@@ -10,14 +10,20 @@
 
 ## Usage
 
+Normal usage
 ```sh
-python convert.py nameofobj.obj
+python convert.py 
 ```
+Debug usage
+```sh
+python convert.py True
+```
+
 
 ## Run tests
 
 ```sh
-python convert.py quackage.obj
+python convert.py
 ```
 
 ## Author
