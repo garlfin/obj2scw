@@ -80,7 +80,7 @@ def crap(path):
 	if len(f) == 0:
 		print(pathtoobj + " doesnt have any triangles! ABORTING")
 		return
-	if len(f) >= 4294967296 * 9:
+	if len(f) >= 65535 * 9:
 		print(pathtoobj + " has too many triangles! ABORTING")
 		return
 	if len(vt) >= 4294967296 * 2:
